@@ -27,5 +27,7 @@ public class schedulerSystem {
             process.setPriorityNumber(in.next());
             processes.add(process);
         }
+        SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
+        sjfScheduler.schedule();
     }
 }
