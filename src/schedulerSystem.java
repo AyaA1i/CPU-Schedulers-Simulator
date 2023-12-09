@@ -37,7 +37,7 @@ public class schedulerSystem {
 
             processes.add(process);
         }
-        SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
-        sjfScheduler.schedule();
+//        SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
+//        sjfScheduler.schedule();
     }
 }

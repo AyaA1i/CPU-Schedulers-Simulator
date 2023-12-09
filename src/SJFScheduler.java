@@ -16,22 +16,22 @@ public class SJFScheduler {
     }
     public void schedule(){
         processes.sort(this::compareByArrivalTime);
-        int currentTime = Integer.parseInt(processes.get(0).getArrivalTime());
+        int currentTime = processes.get(0).getArrivalTime();
 
         while(!processes.isEmpty()){
             Vector<Process> readyQueue = new Vector<>();
 
             for(Process process: processes){
-                if(Integer.parseInt(process.getArrivalTime()) <= currentTime){
+                if(process.getArrivalTime() <= currentTime){
                     readyQueue.add(process);
                 }
             }
 
             readyQueue.sort(this::compareByBurstTime);
             Process currentProcess = readyQueue.get(0);
-            int arrivalTime = Integer.parseInt(currentProcess.getArrivalTime());
+            int arrivalTime = currentProcess.getArrivalTime();
             int waitingTime = currentTime - arrivalTime;
-            int finishTime = currentTime + Integer.parseInt(currentProcess.getBurstTime());
+            int finishTime = currentTime + currentProcess.getBurstTime();
             int turnaroundTime = finishTime - arrivalTime;
 
 
@@ -65,10 +65,10 @@ public class SJFScheduler {
     }
 
     private int compareByArrivalTime(Process a, Process b){
-        return Integer.compare(Integer.parseInt(a.getArrivalTime()) , Integer.parseInt(b.getArrivalTime()));
+        return Integer.compare(a.getArrivalTime() ,b.getArrivalTime());
     }
     private int compareByBurstTime(Process a, Process b){
-        return Integer.compare(Integer.parseInt(a.getBurstTime()), Integer.parseInt(b.getBurstTime()));
+        return Integer.compare(a.getBurstTime(),b.getBurstTime());
     }
 
     public void setAverageTurnaroundTime() {
