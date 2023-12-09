@@ -46,8 +46,8 @@ public class SJFScheduler {
             processes.remove(currentProcess);
             currentTime = finishTime + contextSwitchTime;
         }
-        setAverageWaitingTime();
-        setAverageTurnaroundTime();
+        calculateAverageTurnaroundTime();
+        calculateAverageWaitingTime();
         print();
     }
     private void print(){
@@ -71,14 +71,14 @@ public class SJFScheduler {
         return Integer.compare(a.getBurstTime(),b.getBurstTime());
     }
 
-    public void setAverageTurnaroundTime() {
+    private void calculateAverageTurnaroundTime() {
         for (Map<String ,Integer> processData : processExecution.values()) {
             averageTurnaroundTime += processData.get("turnaroundTime");
         }
         averageTurnaroundTime /= processExecution.size();
     }
 
-    public void setAverageWaitingTime() {
+    private void calculateAverageWaitingTime() {
         for (Map<String ,Integer> processData : processExecution.values()) {
             averageWaitingTime += processData.get("waitingTime");
         }
