@@ -1,9 +1,19 @@
 public class Process {
     private String Name;
     private String Color;
-    private String arrivalTime;
-    private String burstTime;
-    private String priorityNumber;
+    private int arrivalTime;
+    private int burstTime;
+    private int priorityNumber;
+    private int AGFactory;
+
+    public int getAGFactory() {
+        return AGFactory;
+    }
+
+    public void setAGFactory(int AGFactory) {
+        this.AGFactory = AGFactory;
+    }
+
 
     public String getName() {
         return Name;
@@ -11,6 +21,30 @@ public class Process {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public int getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public void setArrivalTime(int arrivalTime) {
+        this.arrivalTime = arrivalTime;
+    }
+
+    public int getBurstTime() {
+        return burstTime;
+    }
+
+    public void setBurstTime(int burstTime) {
+        this.burstTime = burstTime;
+    }
+
+    public int getPriorityNumber() {
+        return priorityNumber;
+    }
+
+    public void setPriorityNumber(int priorityNumber) {
+        this.priorityNumber = priorityNumber;
     }
 
     public String getColor() {
@@ -21,27 +55,5 @@ public class Process {
         Color = color;
     }
 
-    public String getArrivalTime() {
-        return arrivalTime;
-    }
 
-    public void setArrivalTime(String arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
-
-    public String getBurstTime() {
-        return burstTime;
-    }
-
-    public void setBurstTime(String burstTime) {
-        this.burstTime = burstTime;
-    }
-
-    public String getPriorityNumber() {
-        return priorityNumber;
-    }
-
-    public void setPriorityNumber(String priorityNumber) {
-        this.priorityNumber = priorityNumber;
-    }
 }
