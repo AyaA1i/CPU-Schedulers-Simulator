@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class PriorityScheduler {
@@ -18,7 +19,8 @@ public class PriorityScheduler {
 
         double waitingAvg = 0;
         double turnaroundAvg = 0;
-        int curTime = 0;
+        String output = "";
+        ArrayList<String> executionOrder = new ArrayList<>();
         for (int i = 0; i < totalTime; i++) {
             Process tmpProcess = null;
             for (int j = 0; j < processes.size(); j++) {
@@ -38,10 +40,12 @@ public class PriorityScheduler {
                 }
             }
 
-            System.out.println("Process " + tmpProcess.getName() +
-                    " turnaround time: " + (i + tmpProcess.getBurstTime() - tmpProcess.getArrivalTime()));
-            System.out.println("Process " + tmpProcess.getName() +
-                    " waiting time: " + (i - tmpProcess.getArrivalTime()));
+            executionOrder.add(tmpProcess.getName());
+
+            output += ("Process " + tmpProcess.getName() +
+                    " turnaround time: " + (i + tmpProcess.getBurstTime() - tmpProcess.getArrivalTime()) + "\n");
+            output += ("Process " + tmpProcess.getName() +
+                    " waiting time: " + (i - tmpProcess.getArrivalTime()) + "\n");
 
             turnaroundAvg += i + tmpProcess.getBurstTime() - tmpProcess.getArrivalTime();
             waitingAvg += i - tmpProcess.getArrivalTime();
@@ -65,6 +69,13 @@ public class PriorityScheduler {
             // set arrival time to a large number so that it is marked as visited
             tmpProcess.setArrivalTime(1000000000);
         }
+
+        for (int i = 0; i < executionOrder.size(); i++) {
+            System.out.print(executionOrder.get(i) + " ");
+        }
+        System.out.println("\n");
+
+        System.out.println(output);
 
         System.out.println("Average Turnaround Time: " + (turnaroundAvg / processes.size()));
         System.out.println("Average Waiting Time: " + (waitingAvg / processes.size()));
