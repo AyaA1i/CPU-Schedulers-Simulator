@@ -34,8 +34,14 @@ public class schedulerSystem {
             }else{
                 process.setAGFactory(10 + process.getArrivalTime() + process.getBurstTime());
             }
-
+            // test given case
+//            if(i==0)process.setAGFactory(20);
+//            else if(i==1)process.setAGFactory(17);
+//            else if(i==2)process.setAGFactory(16);
+//            else if(i==3)process.setAGFactory(43);
+            process.setQuantumTime(roundRobin);
             processes.add(process);
         }
+        AGAlgorithm ag = new AGAlgorithm(processes);
     }
 }

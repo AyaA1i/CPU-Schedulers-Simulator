@@ -1,10 +1,21 @@
-public class Process {
+public class Process{
     private String Name;
     private String Color;
     private int arrivalTime;
     private int burstTime;
     private int priorityNumber;
     private int AGFactory;
+    private int quantumTime;
+    public int enteredTime;
+    public int exitTime;
+    public int waitingTime;
+    public int getQuantumTime() {
+        return quantumTime;
+    }
+
+    public void setQuantumTime(int quantumTime) {
+        this.quantumTime = quantumTime;
+    }
 
     public int getAGFactory() {
         return AGFactory;
