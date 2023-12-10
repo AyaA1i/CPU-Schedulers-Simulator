@@ -42,6 +42,8 @@ public class schedulerSystem {
             process.setQuantumTime(roundRobin);
             processes.add(process);
         }
-        AGAlgorithm ag = new AGAlgorithm(processes);
+        //SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
+//        sjfScheduler.schedule();
+//        AGAlgorithm ag = new AGAlgorithm(processes);
     }
 }
