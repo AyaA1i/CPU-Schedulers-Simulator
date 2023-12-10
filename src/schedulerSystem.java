@@ -30,7 +30,7 @@ public class schedulerSystem {
             if(rand < 10){
                 process.setAGFactory(rand + process.getArrivalTime() + process.getBurstTime());
             }else if(rand == 10){
-                process.setAGFactory(process.getPriorityNumber() + process.getArrivalTime() + process.getBurstTime());
+                process.setAGFactory((int) (process.getPriorityNumber() + process.getArrivalTime() + process.getBurstTime()));
             }else{
                 process.setAGFactory(10 + process.getArrivalTime() + process.getBurstTime());
             }
@@ -42,8 +42,11 @@ public class schedulerSystem {
             process.setQuantumTime(roundRobin);
             processes.add(process);
         }
-        //SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
+//        SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
 //        sjfScheduler.schedule();
 //        AGAlgorithm ag = new AGAlgorithm(processes);
+
+        PriorityScheduler priorityScheduler = new PriorityScheduler(processes);
+        priorityScheduler.schedule();
     }
 }
