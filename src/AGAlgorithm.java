@@ -44,7 +44,6 @@ public class AGAlgorithm {
 
             int timeTakenByTheProcess = 0;
             currentProcess.waitingTime = Math.max(currentProcess.waitingTime, currentProcess.getBurstTime());
-            currentProcess.enteredTime = Math.min(t, currentProcess.enteredTime);
 
             // the process will run until half of it's quantum time ends
             t += Math.min(currentProcess.getBurstTime(),
@@ -194,10 +193,10 @@ public class AGAlgorithm {
         System.out.println("--------------------------------------------------------------------");
         System.out.println("Process name---------Waiting Time---------Turnaround Time");
         for (Process p : jobQueue) {
-            System.out.println(p.getName() + "                          " + ((p.exitTime - p.enteredTime) - p.waitingTime)
-                    + "                       " + (p.exitTime - p.enteredTime));
-            sumWaiting += ((p.exitTime - p.enteredTime) - -p.waitingTime);
-            sumTurnAround += (p.exitTime - p.enteredTime);
+            System.out.println(p.getName() + "                          " + ((p.exitTime - p.getArrivalTime()) - p.waitingTime)
+                    + "                       " + (p.exitTime - p.getArrivalTime()));
+            sumWaiting += ((p.exitTime - p.getArrivalTime()) - p.waitingTime);
+            sumTurnAround += (p.exitTime - p.getArrivalTime());
         }
         System.out.println("---------------------------------------------------------------------");
         System.out.println("Average waiting time is :");
