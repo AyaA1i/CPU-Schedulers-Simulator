@@ -26,24 +26,37 @@ public class schedulerSystem {
             System.out.println("Enter the " + (i + 1) + " process priority number :");
             process.setPriorityNumber(in.nextInt());
             // this part is related to the Ag algorithm
-            int rand = (int) (Math.random() * 21);
-            if(rand < 10){
-                process.setAGFactory(rand + process.getArrivalTime() + process.getBurstTime());
-            }else if(rand == 10){
-                process.setAGFactory(process.getPriorityNumber() + process.getArrivalTime() + process.getBurstTime());
-            }else{
-                process.setAGFactory(10 + process.getArrivalTime() + process.getBurstTime());
-            }
-            // test given case
+//            int rand = (int) (Math.random() * 21);
+//            if(rand < 10){
+//                process.setAGFactory(rand + process.getArrivalTime() + process.getBurstTime());
+//            }else if(rand == 10){
+//                process.setAGFactory((int) (process.getPriorityNumber() + process.getArrivalTime() + process.getBurstTime()));
+//            }else{
+//                process.setAGFactory(10 + process.getArrivalTime() + process.getBurstTime());
+//            }
+            System.out.println(process.getName() + " " + process.getAGFactory());
+
+            // test case given
+            if (i == 0) process.setAGFactory(20);
+            else if (i == 1) process.setAGFactory(17);
+            else if (i == 2) process.setAGFactory(16);
+            else if (i == 3) process.setAGFactory(43);
+
+            // another test case
 //            if(i==0)process.setAGFactory(20);
-//            else if(i==1)process.setAGFactory(17);
-//            else if(i==2)process.setAGFactory(16);
-//            else if(i==3)process.setAGFactory(43);
+//            else if(i==1)process.setAGFactory(19);
+//            else if(i==2)process.setAGFactory(24);
+//            else if(i==3)process.setAGFactory(38);
+
             process.setQuantumTime(roundRobin);
             processes.add(process);
         }
-        //SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
+//        SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
 //        sjfScheduler.schedule();
-//        AGAlgorithm ag = new AGAlgorithm(processes);
+        AGAlgorithm ag = new AGAlgorithm(processes);
+        ag.buildAlgo();
+
+//        PriorityScheduler priorityScheduler = new PriorityScheduler(processes);
+//        priorityScheduler.schedule();
     }
 }

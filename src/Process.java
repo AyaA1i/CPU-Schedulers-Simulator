@@ -1,9 +1,9 @@
-public class Process{
+public class Process {
     private String Name;
     private String Color;
     private int arrivalTime;
     private int burstTime;
-    private int priorityNumber;
+    private double priorityNumber;
     private int AGFactory;
     private int quantumTime;
     public int enteredTime;
@@ -50,11 +50,11 @@ public class Process{
         this.burstTime = burstTime;
     }
 
-    public int getPriorityNumber() {
+    public double getPriorityNumber() {
         return priorityNumber;
     }
 
-    public void setPriorityNumber(int priorityNumber) {
+    public void setPriorityNumber(double priorityNumber) {
         this.priorityNumber = priorityNumber;
     }
 
@@ -65,6 +65,4 @@ public class Process{
     public void setColor(String color) {
         Color = color;
     }
-
-
 }
