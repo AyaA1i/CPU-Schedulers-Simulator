@@ -6,7 +6,7 @@ public class Process {
     private double priorityNumber;
     private int AGFactory;
     private int quantumTime;
-    public int enteredTime;
+    public int enteredTime = -1;
     public int exitTime;
     public int waitingTime;
     public int getQuantumTime() {
