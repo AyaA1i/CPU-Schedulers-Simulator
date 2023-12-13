@@ -144,6 +144,7 @@ public class AGAlgorithm {
         else if (timeTakenByTheProcess == p.getQuantumTime()) {
             int sumQ = 0;
             for (Process pp : jobQueue) {
+                if(pp.waitingTime == pp.getBurstTime())break;
                 sumQ += pp.getQuantumTime();
             }
             p.setQuantumTime(p.getQuantumTime() +
