@@ -59,11 +59,10 @@ public class AGAlgorithm {
         while (true) {
             //print quantum times every time
             printQ(t);
-
-            // Check if all processes have finished
             if (END()) break;
 
             currentProcess.enteredTime =t;
+            // Check if all processes have finished
 
             //print current working process
             System.out.print(">> ");
@@ -81,6 +80,7 @@ public class AGAlgorithm {
 
 
             if (currentProcess.getBurstTime() == 0) {
+                processExecution.add(Map.entry(currentProcess, Map.entry(currentProcess.enteredTime, t)));
                 calcQ(currentProcess, timeTakenByTheProcess);
                 currentProcess = processCompletedBurst(currentProcess, t, timeTakenByTheProcess);
                 continue;
@@ -140,6 +140,7 @@ public class AGAlgorithm {
 
             }
             if (found) continue;
+
             processExecution.add(Map.entry(currentProcess, Map.entry(currentProcess.enteredTime, t)));
             //if the process finished it's burst time
             if (currentProcess.getBurstTime() == 0) {
@@ -220,8 +221,8 @@ public class AGAlgorithm {
         System.out.println(sumWaiting / jobQueue.size());
         System.out.println("Average turnaround time is :");
         System.out.println(sumTurnAround / jobQueue.size());
-        awt = sumWaiting;
-        atat = sumTurnAround;
+        awt = sumWaiting / jobQueue.size();
+        atat = sumTurnAround / jobQueue.size();
     }
 
     Process processCompletedBurst(Process currentProcess, int t, int timeTakenByTheProcess) {
