@@ -1,3 +1,6 @@
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -42,6 +45,7 @@ public class schedulerSystem {
             else if (i == 2) process.setAGFactory(16);
             else if (i == 3) process.setAGFactory(43);
 
+
             // another test case
 //            if(i==0)process.setAGFactory(20);
 //            else if(i==1)process.setAGFactory(19);
@@ -53,6 +57,19 @@ public class schedulerSystem {
         }
 //        SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
 //        sjfScheduler.schedule();
+//        SwingUtilities.invokeLater(() -> {
+//
+//
+//            JFrame frame = new JFrame("CPU Gantt Chart");
+//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//            GanttChartPanel chartPanel = new GanttChartPanel(sjfScheduler.getProcessExecution());
+//            frame.getContentPane().add(chartPanel);
+//
+//            frame.setSize(600, 200);
+//            frame.setLocationRelativeTo(null);
+//            frame.setVisible(true);
+//        });
         AGAlgorithm ag = new AGAlgorithm(processes);
         ag.buildAlgo();
 
