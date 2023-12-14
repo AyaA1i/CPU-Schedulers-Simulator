@@ -45,8 +45,8 @@ public class schedulerSystem {
             // another test case
 //            if(i==0)process.setAGFactory(20);
 //            else if(i==1)process.setAGFactory(19);
-//            else if(i==2)process.setAGFactory(24);
-//            else if(i==3)process.setAGFactory(38);
+//            else if(i==2)process.setAGFactory(18);
+//            else if(i==3)process.setAGFactory(17);
 
             process.setQuantumTime(roundRobin);
             processes.add(process);
