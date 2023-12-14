@@ -1,21 +1,20 @@
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Vector;
 
 public class PriorityScheduler {
     private Vector<Process> processes;
+    private Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>> processExecution = new Vector<>();
     private double agingFactor;
+    private double awt;
+    private double atat;
+
     public PriorityScheduler(Vector<Process> processes) {
         this.processes = processes;
         agingFactor = 0.1;
     }
-    void ageProcess(Process process) {
-
-    }
     public void schedule() {
-        int totalTime = 0;
-        for (int i = 0; i < processes.size(); i++) {
-            totalTime += processes.get(i).getBurstTime();
-        }
+        int totalTime = 100000;
 
         double waitingAvg = 0;
         double turnaroundAvg = 0;
@@ -40,36 +39,40 @@ public class PriorityScheduler {
                 }
             }
 
-            executionOrder.add(tmpProcess.getName());
+            if (tmpProcess != null) {
+                executionOrder.add(tmpProcess.getName());
 
-            output += ("Process " + tmpProcess.getName() +
-                    " turnaround time: " + (i + tmpProcess.getBurstTime() - tmpProcess.getArrivalTime()) + "\n");
-            output += ("Process " + tmpProcess.getName() +
-                    " waiting time: " + (i - tmpProcess.getArrivalTime()) + "\n");
+                output += ("Process " + tmpProcess.getName() +
+                        " turnaround time: " + (i + tmpProcess.getBurstTime() - tmpProcess.getArrivalTime()) + "\n");
+                output += ("Process " + tmpProcess.getName() +
+                        " waiting time: " + (i - tmpProcess.getArrivalTime()) + "\n");
 
-            turnaroundAvg += i + tmpProcess.getBurstTime() - tmpProcess.getArrivalTime();
-            waitingAvg += i - tmpProcess.getArrivalTime();
+                turnaroundAvg += i + tmpProcess.getBurstTime() - tmpProcess.getArrivalTime();
+                waitingAvg += i - tmpProcess.getArrivalTime();
 
-            // aging
-            for (int j = i; j < i + tmpProcess.getBurstTime(); j++) {
-                if (j > 0 && j % 2 == 0) {
-                    for (int k = 0; k < processes.size(); k++) {
-                        Process process = processes.get(k);
-                        if (process == tmpProcess || process.getArrivalTime() == 1000000000
-                                || process.getArrivalTime() > i) continue;
+                // aging
+                for (int j = i; j < i + tmpProcess.getBurstTime(); j++) {
+                    if (j > 0 && j % 2 == 0) {
+                        for (int k = 0; k < processes.size(); k++) {
+                            Process process = processes.get(k);
+                            if (process == tmpProcess || process.getArrivalTime() == 1000000000
+                                    || process.getArrivalTime() > i) continue;
 
-                        if (process.getPriorityNumber() > 0) {
-                            processes.get(k).setPriorityNumber(process.getPriorityNumber() -
-                                    (agingFactor * (i - process.getArrivalTime())));
+                            if (process.getPriorityNumber() > 0) {
+                                processes.get(k).setPriorityNumber(process.getPriorityNumber() -
+                                        (agingFactor * (i - process.getArrivalTime())));
+                            }
                         }
                     }
                 }
+
+                processExecution.add(Map.entry(tmpProcess, Map.entry(i, i + tmpProcess.getBurstTime())));
+
+                i += tmpProcess.getBurstTime() - 1;
+
+                // set arrival time to a large number so that it is marked as visited
+                tmpProcess.setArrivalTime(1000000000);
             }
-
-            i += tmpProcess.getBurstTime() - 1;
-
-            // set arrival time to a large number so that it is marked as visited
-            tmpProcess.setArrivalTime(1000000000);
         }
 
         for (int i = 0; i < executionOrder.size(); i++) {
@@ -81,5 +84,19 @@ public class PriorityScheduler {
 
         System.out.println("Average Turnaround Time: " + (turnaroundAvg / processes.size()));
         System.out.println("Average Waiting Time: " + (waitingAvg / processes.size()));
+
+        awt = waitingAvg / processes.size();
+        atat = turnaroundAvg / processes.size();
+    }
+
+    public Vector<Map.Entry<Process, Map.Entry<Integer, Integer>>> getProcessExecution() {
+        return processExecution;
+    }
+    public double getAwt() {
+        return awt;
+    }
+
+    public double getAtat() {
+        return atat;
     }
 }

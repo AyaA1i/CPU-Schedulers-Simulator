@@ -1,8 +1,6 @@
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Vector;
+import java.awt.*;
+import java.util.*;
 
 public class schedulerSystem {
 
@@ -27,6 +25,7 @@ public class schedulerSystem {
             System.out.println("Enter the " + (i + 1) + " process burst time :");
             process.setBurstTime(in.nextInt());
             System.out.println("Enter the " + (i + 1) + " process priority number :");
+
             process.setPriorityNumber(in.nextInt());
             // this part is related to the Ag algorithm
             int rand = (int) (Math.random() * 21);
@@ -49,43 +48,66 @@ public class schedulerSystem {
                 "3. Priority scheduler \n" +
                 "4. SRTF scheduler");
         choice = in.nextInt();
+
         if (choice == 1) {
             SJFScheduler sjfScheduler = new SJFScheduler(processes, contextSwitch);
             sjfScheduler.schedule();
-            SwingUtilities.invokeLater(() -> {
-
-
-                JFrame frame = new JFrame("CPU Gantt Chart");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                GanttChartPanel chartPanel = new GanttChartPanel(sjfScheduler.getProcessExecutionGui());
-                frame.getContentPane().add(chartPanel);
-
-                frame.setSize(600, 200);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            });
+//            guiInvoker(sjfScheduler.getProcessExecutionGui());
         } else if (choice == 2) {
             AGAlgorithm ag = new AGAlgorithm(processes);
             ag.buildAlgo();
-            SwingUtilities.invokeLater(() -> {
-                JFrame frame = new JFrame("CPU Gantt Chart");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                GanttChartPanel chartPanel = new GanttChartPanel(ag.getProcessExecution());
-                frame.getContentPane().add(chartPanel);
-
-                frame.setSize(600, 200);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            });
+//            guiInvoker(ag.getProcessExecution());
         }else if(choice==3){
             PriorityScheduler priorityScheduler = new PriorityScheduler(processes);
             priorityScheduler.schedule();
+            guiInvoker(priorityScheduler.getProcessExecution(), priorityScheduler.getAwt(), priorityScheduler.getAtat(), "Priority Scheduler");
         }else if(choice==4){
 
         }else{
             System.out.println("INVALID INPUT!");
         }
+
+    }
+
+    private static void guiInvoker(Vector<Map.Entry<Process, Map.Entry<Integer, Integer>>> processExecution, double awt, double atat, String schedulerName) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("CPU Gantt Chart");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            GanttChartPanel chartPanel = new GanttChartPanel(processExecution);
+
+            JPanel titlePanel = new JPanel();
+            titlePanel.setBounds(0, 700, 600, 30);
+            titlePanel.setBackground(new Color(10, 100, 200));
+            JLabel titleLabel = new JLabel();
+            titleLabel.setText("Statistics of " + schedulerName);
+            titlePanel.add(titleLabel);
+            titleLabel.setForeground(Color.white);
+
+            JPanel awtPanel = new JPanel();
+            awtPanel.setBounds(0, 730, 600, 30);
+            awtPanel.setBackground(new Color(12, 10, 100));
+            JLabel awtLabel = new JLabel();
+            awtLabel.setText("AWT: " + (awt));
+            awtPanel.add(awtLabel);
+            awtLabel.setForeground(Color.white);
+
+            JPanel atatPanel = new JPanel();
+            atatPanel.setBounds(0, 760, 600, 30);
+            atatPanel.setBackground(new Color(100, 100, 100));
+            JLabel atatLabel = new JLabel();
+            atatLabel.setText("ATAT: " + (atat));
+            atatPanel.add(atatLabel);
+            atatLabel.setForeground(Color.white);
+
+            frame.add(titlePanel);
+            frame.add(awtPanel);
+            frame.add(atatPanel);
+
+            frame.add(chartPanel);
+            frame.setSize(600, 850);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 }
