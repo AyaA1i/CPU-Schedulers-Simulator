@@ -7,14 +7,29 @@ public class SRTFScheduler {
     private final Vector<Process> processes;
     private final Vector<SRTFProcess> processesExecution;
     private final Vector<SRTFProcess> executionOrder;
+    private final Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>> processExecutionGui;
     private final int maxSwaps = 10;
     private double averageWaitingTime;
     private double averageTurnAroundTime;
+
+    public Vector<Map.Entry<Process, Map.Entry<Integer, Integer>>> getProcessExecutionGui() {
+
+        return processExecutionGui;
+    }
+
+    public double getAverageWaitingTime() {
+        return averageWaitingTime;
+    }
+
+    public double getAverageTurnAroundTime() {
+        return averageTurnAroundTime;
+    }
 
     public SRTFScheduler(Vector<Process> processes) {
         this.processes = processes;
         this.processesExecution = new Vector<>();
         this.executionOrder = new Vector<>();
+        this.processExecutionGui = new Vector<>();
         averageWaitingTime = 0.0;
         averageTurnAroundTime = 0.0;
         for (Process process: processes) {
@@ -30,14 +45,18 @@ public class SRTFScheduler {
         SRTFProcess currentSRTFProcess = null;
         int currentPairIdx = -1;
         while (executionCompletedProcesses < processes.size()){
-
+            SRTFProcess tmp = null;
             if(currentSRTFProcess == null){ // first process
                 currentSRTFProcess = processesExecution.get(0);
+                currentSRTFProcess.process.enteredTime = timeCounter;
             }else{
                 SRTFProcess tmpSRTFProcess = getMinRemainingTimeProcess(currentSRTFProcess, timeCounter);
                 if(tmpSRTFProcess != null){
-                    currentSRTFProcess.swapsCounter++;
+                    currentSRTFProcess.swapsCounter++; // finish process
+                    tmp = currentSRTFProcess;
+                    tmp.process.exitTime = timeCounter;
                     currentSRTFProcess = tmpSRTFProcess;
+                    currentSRTFProcess.process.enteredTime = timeCounter;
                 }
             }
 
@@ -48,6 +67,7 @@ public class SRTFScheduler {
                 executionCompletedProcesses++;
                 processesExecution.get(currentPairIdx).process.exitTime = timeCounter + 1;
                 processesExecution.get(currentPairIdx).process.setExecutionCompleted(true);
+                tmp = processesExecution.get(currentPairIdx);
             }
 
             timeCounter++;
@@ -55,7 +75,13 @@ public class SRTFScheduler {
             if(executionOrder.isEmpty() || executionOrder.lastElement() != currentSRTFProcess) {
                 executionOrder.add(processesExecution.get(currentPairIdx));
             }
+
+            if(tmp != null && (processExecutionGui.isEmpty() ||
+                    !processExecutionGui.lastElement().equals(Map.entry(tmp.process, Map.entry(tmp.process.enteredTime, tmp.process.exitTime))))) {
+                processExecutionGui.add(Map.entry(tmp.process, Map.entry(tmp.process.enteredTime, tmp.process.exitTime)));
+            }
         }
+      //  processExecutionGui.add(Map.entry(currentSRTFProcess.process, Map.entry(currentSRTFProcess.process.enteredTime, currentSRTFProcess.process.exitTime)));
         calculateAverageTurnaroundTime();
         calculateAverageWaitingTime();
         print();
@@ -111,14 +137,6 @@ public class SRTFScheduler {
         }
         System.out.println("\nAverage waiting time =  " + averageWaitingTime);
         System.out.println("Average turnaround time =  " + averageTurnAroundTime);
-    }
-
-    public double getAverageWaitingTime() {
-        return averageWaitingTime;
-    }
-
-    public double getAverageTurnAroundTime() {
-        return averageTurnAroundTime;
     }
 
 }

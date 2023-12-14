@@ -60,7 +60,9 @@ public class schedulerSystem {
             priorityScheduler.schedule();
             guiInvoker(priorityScheduler.getProcessExecution(), priorityScheduler.getAwt(), priorityScheduler.getAtat(), "Priority Scheduler");
         } else if (choice == 4) {
-
+            SRTFScheduler srtfScheduler = new SRTFScheduler(processes);
+            srtfScheduler.schedule();
+            guiInvoker(srtfScheduler.getProcessExecutionGui(), srtfScheduler.getAverageWaitingTime(), srtfScheduler.getAverageTurnAroundTime(), "SRTF Scheduler");
         } else {
             System.out.println("INVALID INPUT!");
         }
