@@ -3,6 +3,9 @@ import java.util.*;
 public class SJFScheduler {
     private final Vector<Process> processes;
     private final Map<Process, Map<String,Integer>> processExecution;
+    private final Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>> processExecutionGui
+            = new Vector<>();
+
     private final int contextSwitchTime;
     private double averageWaitingTime;
     private double averageTurnaroundTime;
@@ -41,6 +44,8 @@ public class SJFScheduler {
             processExecution.get(currentProcess).put("finishTime",finishTime);
             processExecution.get(currentProcess).put("waitingTime",waitingTime);
             processExecution.get(currentProcess).put("turnaroundTime",turnaroundTime);
+            processExecutionGui.add(Map.entry(currentProcess, Map.entry(currentTime, finishTime)));
+
 
 
             processes.remove(currentProcess);
@@ -91,6 +96,9 @@ public class SJFScheduler {
 
     public Map<Process, Map<String, Integer>> getProcessExecution() {
         return processExecution;
+    }
+    public Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>> getProcessExecutionGui() {
+        return processExecutionGui;
     }
 
     public int getContextSwitchTime() {

@@ -29,51 +29,63 @@ public class schedulerSystem {
             System.out.println("Enter the " + (i + 1) + " process priority number :");
             process.setPriorityNumber(in.nextInt());
             // this part is related to the Ag algorithm
-//            int rand = (int) (Math.random() * 21);
-//            if(rand < 10){
-//                process.setAGFactory(rand + process.getArrivalTime() + process.getBurstTime());
-//            }else if(rand == 10){
-//                process.setAGFactory((int) (process.getPriorityNumber() + process.getArrivalTime() + process.getBurstTime()));
-//            }else{
-//                process.setAGFactory(10 + process.getArrivalTime() + process.getBurstTime());
-//            }
-            System.out.println(process.getName() + " " + process.getAGFactory());
-
-            // test case given
-            if (i == 0) process.setAGFactory(20);
-            else if (i == 1) process.setAGFactory(17);
-            else if (i == 2) process.setAGFactory(16);
-            else if (i == 3) process.setAGFactory(43);
-
-
-            // another test case
-//            if(i==0)process.setAGFactory(20);
-//            else if(i==1)process.setAGFactory(19);
-//            else if(i==2)process.setAGFactory(18);
-//            else if(i==3)process.setAGFactory(17);
+            int rand = (int) (Math.random() * 21);
+            if (rand < 10) {
+                process.setAGFactory(rand + process.getArrivalTime() + process.getBurstTime());
+            } else if (rand == 10) {
+                process.setAGFactory((int) (process.getPriorityNumber() + process.getArrivalTime() + process.getBurstTime()));
+            } else {
+                process.setAGFactory(10 + process.getArrivalTime() + process.getBurstTime());
+            }
 
             process.setQuantumTime(roundRobin);
             processes.add(process);
         }
-//        SJFScheduler sjfScheduler = new SJFScheduler(processes,contextSwitch);
-//        sjfScheduler.schedule();
-//        SwingUtilities.invokeLater(() -> {
-//
-//
-//            JFrame frame = new JFrame("CPU Gantt Chart");
-//            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//            GanttChartPanel chartPanel = new GanttChartPanel(sjfScheduler.getProcessExecution());
-//            frame.getContentPane().add(chartPanel);
-//
-//            frame.setSize(600, 200);
-//            frame.setLocationRelativeTo(null);
-//            frame.setVisible(true);
-//        });
-        AGAlgorithm ag = new AGAlgorithm(processes);
-        ag.buildAlgo();
 
-//        PriorityScheduler priorityScheduler = new PriorityScheduler(processes);
-//        priorityScheduler.schedule();
+        int choice;
+        System.out.println("Enter the number of the scheduler you want to use :\n" +
+                "1. SJF scheduler \n" +
+                "2. AG scheduler \n" +
+                "3. Priority scheduler \n" +
+                "4. SRTF scheduler");
+        choice = in.nextInt();
+        if (choice == 1) {
+            SJFScheduler sjfScheduler = new SJFScheduler(processes, contextSwitch);
+            sjfScheduler.schedule();
+            SwingUtilities.invokeLater(() -> {
+
+
+                JFrame frame = new JFrame("CPU Gantt Chart");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                GanttChartPanel chartPanel = new GanttChartPanel(sjfScheduler.getProcessExecutionGui());
+                frame.getContentPane().add(chartPanel);
+
+                frame.setSize(600, 200);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            });
+        } else if (choice == 2) {
+            AGAlgorithm ag = new AGAlgorithm(processes);
+            ag.buildAlgo();
+            SwingUtilities.invokeLater(() -> {
+                JFrame frame = new JFrame("CPU Gantt Chart");
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+                GanttChartPanel chartPanel = new GanttChartPanel(ag.getProcessExecution());
+                frame.getContentPane().add(chartPanel);
+
+                frame.setSize(600, 200);
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            });
+        }else if(choice==3){
+            PriorityScheduler priorityScheduler = new PriorityScheduler(processes);
+            priorityScheduler.schedule();
+        }else if(choice==4){
+
+        }else{
+            System.out.println("INVALID INPUT!");
+        }
     }
 }

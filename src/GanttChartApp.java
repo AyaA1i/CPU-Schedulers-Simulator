@@ -3,15 +3,17 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 class GanttChartPanel extends JPanel {
     private List<Process> processes = new ArrayList<>();
-    private Map<Process, Map<String,Integer>> processExecution;
+    private Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>> processExecution = new Vector<>();
+
 
     public GanttChartPanel(List<Process> processes) {
         this.processes = processes;
     }
-    public GanttChartPanel(Map<Process, Map<String,Integer>> processExecution) {
+    public GanttChartPanel(Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>> processExecution){
         this.processExecution = processExecution;
     }
 
@@ -35,21 +37,20 @@ class GanttChartPanel extends JPanel {
         }
 
         // Draw vertical lines (process names)
-        for (Map.Entry<Process, Map<String, Integer>> entry : processExecution.entrySet()) {
+        for (Map.Entry<Process, Map.Entry<Integer, Integer>> entry : processExecution) {
             Process process = entry.getKey();
-            Map<String, Integer> values = entry.getValue();
+            Map.Entry<Integer, Integer> values = entry.getValue();
 
             g.setColor(Color.LIGHT_GRAY);
             g.drawString(process.getName(), 10, y + 20);
 
-            int startTime = values.get("startTime");
-            int finishTime = values.get("finishTime");
+            int startTime = values.getKey();
+            int finishTime = values.getValue();
             int width = (finishTime - startTime) * 10;
 
             g.setColor(Color.BLUE.brighter());
             g.fillRect(x + startTime*10, y, width, 30);
 
-//            x += startTime;
             y += 40;
         }
     }
