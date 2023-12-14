@@ -27,18 +27,14 @@ public class schedulerSystem {
 
             process.setPriorityNumber(in.nextInt());
             // this part is related to the Ag algorithm
-//            int rand = (int) (Math.random() * 21);
-//            if (rand < 10) {
-//                process.setAGFactory(rand + process.getArrivalTime() + process.getBurstTime());
-//            } else if (rand == 10) {
-//                process.setAGFactory((int) (process.getPriorityNumber() + process.getArrivalTime() + process.getBurstTime()));
-//            } else {
-//                process.setAGFactory(10 + process.getArrivalTime() + process.getBurstTime());
-//            }
-            if(i==0)process.setAGFactory(20);
-            else if(i==1)process.setAGFactory(17);
-            else if(i==2)process.setAGFactory(16);
-            else if(i==3)process.setAGFactory(43);
+            int rand = (int) (Math.random() * 21);
+            if (rand < 10) {
+                process.setAGFactory(rand + process.getArrivalTime() + process.getBurstTime());
+            } else if (rand == 10) {
+                process.setAGFactory((int) (process.getPriorityNumber() + process.getArrivalTime() + process.getBurstTime()));
+            } else {
+                process.setAGFactory(10 + process.getArrivalTime() + process.getBurstTime());
+            }
             process.setQuantumTime(roundRobin);
             processes.add(process);
         }
