@@ -1,10 +1,14 @@
-import java.security.KeyStore;
 import java.util.*;
 
 public class AGAlgorithm {
+    private final Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>> processExecution = new Vector<>();
     Queue<Process> diedProcesses = new ArrayDeque<>();
     Queue<Process> readyProcesses = new ArrayDeque<>();
     Vector<Process> jobQueue;
+    public Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>>  getProcessExecution() {
+        return processExecution;
+    }
+
 
     AGAlgorithm(Vector<Process> jobQueue) {
         this.jobQueue = jobQueue;
@@ -24,8 +28,10 @@ public class AGAlgorithm {
     boolean END() {
         boolean end = true;
         for (Process p : jobQueue) {
-            if (p.getBurstTime() != 0)
+            if (p.getBurstTime() != 0){
                 end = false;
+                break;
+            }
         }
         return end;
     }
@@ -37,13 +43,15 @@ public class AGAlgorithm {
         Map.Entry<Process, Integer> CJob = getfromJob(i, t);
         Process currentProcess = CJob.getKey();
         i = CJob.getValue();
-        Process currentFromJob = null;
+        Process currentFromJob;
         while (true) {
             //print quantum times every time
             printQ(t);
 
             // Check if all processes have finished
             if (END()) break;
+
+            currentProcess.enteredTime =t;
 
             //print current working process
             System.out.print(">> ");
@@ -83,6 +91,7 @@ public class AGAlgorithm {
                     calcQ(currentProcess, timeTakenByTheProcess);
                 }
                 currentProcess.exitTime = Math.max(t, currentProcess.exitTime);
+                processExecution.add(Map.entry(currentProcess, Map.entry(currentProcess.enteredTime, t)));
                 currentProcess = minAG;
                 continue;
             }
@@ -109,6 +118,7 @@ public class AGAlgorithm {
                     calcQ(currentProcess, timeTakenByTheProcess);
                     currentProcess.exitTime = Math.max(t, currentProcess.exitTime);
                     readyProcesses.add(currentProcess);
+                    processExecution.add(Map.entry(currentProcess, Map.entry(currentProcess.enteredTime, t)));
                     currentProcess = currentFromJob;
                     found = true;
                     break;
@@ -116,7 +126,7 @@ public class AGAlgorithm {
 
             }
             if (found) continue;
-
+            processExecution.add(Map.entry(currentProcess, Map.entry(currentProcess.enteredTime, t)));
             //if the process finished it's burst time
             if (currentProcess.getBurstTime() == 0) {
 
@@ -189,12 +199,14 @@ public class AGAlgorithm {
                     + "                       " + (p.exitTime - p.getArrivalTime()));
             sumWaiting += ((p.exitTime - p.getArrivalTime()) - p.waitingTime);
             sumTurnAround += (p.exitTime - p.getArrivalTime());
+
         }
         System.out.println("---------------------------------------------------------------------");
         System.out.println("Average waiting time is :");
         System.out.println(sumWaiting / jobQueue.size());
         System.out.println("Average turnaround time is :");
         System.out.println(sumTurnAround / jobQueue.size());
+        System.out.println(processExecution);
     }
 
     Process processCompletedBurst(Process currentProcess, int t, int timeTakenByTheProcess) {
