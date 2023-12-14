@@ -4,6 +4,18 @@ public class AGAlgorithm {
     private final Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>> processExecution = new Vector<>();
     Queue<Process> diedProcesses = new ArrayDeque<>();
     Queue<Process> readyProcesses = new ArrayDeque<>();
+    private double awt;
+    private double atat;
+
+    public double getAwt() {
+        return awt;
+    }
+
+    public double getAtat() {
+        return atat;
+    }
+
+
     Vector<Process> jobQueue;
     public Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>>  getProcessExecution() {
         return processExecution;
@@ -82,7 +94,8 @@ public class AGAlgorithm {
             Process minAG = CJob.getKey();
 
             if (minAG.getArrivalTime() <= t &&
-                    minAG.getAGFactory() < currentProcess.getAGFactory()) {
+                    minAG.getAGFactory() < currentProcess.getAGFactory() &&
+            minAG.getBurstTime()>0) {
                 if (currentProcess.getBurstTime() == 0) {
                     diedProcesses.add(currentProcess);
                     currentProcess.setQuantumTime(0);
@@ -113,7 +126,8 @@ public class AGAlgorithm {
 
                 // if a new process came
                 if (currentFromJob != currentProcess &&
-                currentFromJob.getAGFactory() < currentProcess.getAGFactory()) {
+                currentFromJob.getAGFactory() < currentProcess.getAGFactory() &&
+                currentFromJob.getBurstTime()>0) {
 
                     calcQ(currentProcess, timeTakenByTheProcess);
                     currentProcess.exitTime = Math.max(t, currentProcess.exitTime);
@@ -189,8 +203,8 @@ public class AGAlgorithm {
 
 
     void print() {
-        int sumWaiting = 0;
-        int sumTurnAround = 0;
+        double sumWaiting = 0;
+        double sumTurnAround = 0;
         System.out.println('\n');
         System.out.println("--------------------------------------------------------------------");
         System.out.println("Process name---------Waiting Time---------Turnaround Time");
@@ -206,6 +220,8 @@ public class AGAlgorithm {
         System.out.println(sumWaiting / jobQueue.size());
         System.out.println("Average turnaround time is :");
         System.out.println(sumTurnAround / jobQueue.size());
+        awt = sumWaiting;
+        atat = sumTurnAround;
     }
 
     Process processCompletedBurst(Process currentProcess, int t, int timeTakenByTheProcess) {
