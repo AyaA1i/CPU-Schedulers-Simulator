@@ -59,11 +59,10 @@ public class AGAlgorithm {
         while (true) {
             //print quantum times every time
             printQ(t);
-
-            // Check if all processes have finished
             if (END()) break;
 
             currentProcess.enteredTime =t;
+            // Check if all processes have finished
 
             //print current working process
             System.out.print(">> ");
@@ -81,6 +80,7 @@ public class AGAlgorithm {
 
 
             if (currentProcess.getBurstTime() == 0) {
+                processExecution.add(Map.entry(currentProcess, Map.entry(currentProcess.enteredTime, t)));
                 calcQ(currentProcess, timeTakenByTheProcess);
                 currentProcess = processCompletedBurst(currentProcess, t, timeTakenByTheProcess);
                 continue;
@@ -140,6 +140,7 @@ public class AGAlgorithm {
 
             }
             if (found) continue;
+
             processExecution.add(Map.entry(currentProcess, Map.entry(currentProcess.enteredTime, t)));
             //if the process finished it's burst time
             if (currentProcess.getBurstTime() == 0) {
