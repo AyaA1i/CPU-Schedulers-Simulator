@@ -9,6 +9,8 @@ public class Process {
     public int enteredTime = -1;
     public int exitTime;
     public int waitingTime;
+    private boolean executionCompleted = false;
+    private int turnAroundTime;
     public int getQuantumTime() {
         return quantumTime;
     }
@@ -64,5 +66,21 @@ public class Process {
 
     public void setColor(String color) {
         Color = color;
+    }
+
+    public boolean isExecutionCompleted() {
+        return executionCompleted;
+    }
+
+    public void setExecutionCompleted(boolean executionCompleted) {
+        this.executionCompleted = executionCompleted;
+    }
+
+    public int getTurnAroundTime() {
+        return turnAroundTime;
+    }
+
+    public void setTurnAroundTime(int turnAroundTime) {
+        this.turnAroundTime = turnAroundTime;
     }
 }
