@@ -47,6 +47,11 @@ class GanttChartPanel extends JPanel {
             }
         }
 
+        g.drawString("Process Info: ", 0, 150);
+        g.drawString("Name: ", 10, 170);
+        g.drawString("Color: ", 60, 170);
+        g.drawString("Priority: ", 120, 170);
+
         // Draw vertical lines (process names)
         Set<String> processSet = new HashSet<>();
 
@@ -67,6 +72,10 @@ class GanttChartPanel extends JPanel {
                 }
                 g.setColor(Color.BLACK);
                 g.drawString(process.getName(), 230, y + 20);
+                g.drawString(process.getName(), 10, y + 170);
+                g.drawString(process.getColor(), 60, y + 170);
+                String priority = Double.toString(process.getPriorityNumber());
+                g.drawString(priority, 120, y + 170);
                 y += 40;
             }
             processSet.add(process.getName());

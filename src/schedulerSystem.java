@@ -99,6 +99,8 @@ public class schedulerSystem {
             atatPanel.add(atatLabel);
             atatLabel.setForeground(Color.white);
 
+
+
             frame.add(titlePanel);
             frame.add(awtPanel);
             frame.add(atatPanel);
