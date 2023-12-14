@@ -220,8 +220,8 @@ public class AGAlgorithm {
         System.out.println(sumWaiting / jobQueue.size());
         System.out.println("Average turnaround time is :");
         System.out.println(sumTurnAround / jobQueue.size());
-        awt = sumWaiting;
-        atat = sumTurnAround;
+        awt = sumWaiting / jobQueue.size();
+        atat = sumTurnAround / jobQueue.size();
     }
 
     Process processCompletedBurst(Process currentProcess, int t, int timeTakenByTheProcess) {

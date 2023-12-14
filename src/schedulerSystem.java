@@ -3,7 +3,6 @@ import java.awt.*;
 import java.util.*;
 
 public class schedulerSystem {
-
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         Vector<Process> processes = new Vector<>();
@@ -36,10 +35,10 @@ public class schedulerSystem {
 //            } else {
 //                process.setAGFactory(10 + process.getArrivalTime() + process.getBurstTime());
 //            }
-            if(i==0)process.setAGFactory(21);
-            else if(i==1)process.setAGFactory(9);
-            else if(i==2)process.setAGFactory(24);
-            else if(i==3)process.setAGFactory(39);
+            if(i==0)process.setAGFactory(20);
+            else if(i==1)process.setAGFactory(17);
+            else if(i==2)process.setAGFactory(16);
+            else if(i==3)process.setAGFactory(43);
             process.setQuantumTime(roundRobin);
             processes.add(process);
         }
@@ -55,7 +54,7 @@ public class schedulerSystem {
         if (choice == 1) {
             SJFScheduler sjfScheduler = new SJFScheduler(processes, contextSwitch);
             sjfScheduler.schedule();
-//            guiInvoker(sjfScheduler.getProcessExecutionGui());
+            guiInvoker(sjfScheduler.getProcessExecutionGui(),sjfScheduler.getAverageWaitingTime(), sjfScheduler.getAverageTurnaroundTime(), "SJF Scheduler");
         } else if (choice == 2) {
             AGAlgorithm ag = new AGAlgorithm(processes);
             ag.buildAlgo();
@@ -81,7 +80,7 @@ public class schedulerSystem {
             GanttChartPanel chartPanel = new GanttChartPanel(processExecution);
 
             JPanel titlePanel = new JPanel();
-            titlePanel.setBounds(0, 400, 600, 30);
+            titlePanel.setBounds(0, 20, 200, 30);
             titlePanel.setBackground(new Color(10, 100, 200));
             JLabel titleLabel = new JLabel();
             titleLabel.setText("Statistics of " + schedulerName);
@@ -89,7 +88,7 @@ public class schedulerSystem {
             titleLabel.setForeground(Color.white);
 
             JPanel awtPanel = new JPanel();
-            awtPanel.setBounds(0, 430, 600, 30);
+            awtPanel.setBounds(0, 60, 200, 30);
             awtPanel.setBackground(new Color(12, 10, 100));
             JLabel awtLabel = new JLabel();
             awtLabel.setText("AWT: " + (awt));
@@ -97,7 +96,7 @@ public class schedulerSystem {
             awtLabel.setForeground(Color.white);
 
             JPanel atatPanel = new JPanel();
-            atatPanel.setBounds(0, 460, 600, 30);
+            atatPanel.setBounds(0, 100, 200, 30);
             atatPanel.setBackground(new Color(100, 100, 100));
             JLabel atatLabel = new JLabel();
             atatLabel.setText("ATAT: " + (atat));
@@ -109,7 +108,7 @@ public class schedulerSystem {
             frame.add(atatPanel);
 
             frame.add(chartPanel);
-            frame.setSize(600, 600);
+            frame.setSize(1500, 700);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
         });
