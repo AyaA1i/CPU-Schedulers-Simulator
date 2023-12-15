@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class AGAlgorithm {
-    private final Vector<Map.Entry<Process, Map.Entry<Integer,Integer>>> processExecution = new Vector<>();
+    private final Vector<Map.Entry<Process, Map.Entry<Integer, Integer>>> processExecution = new Vector<>();
     Queue<Process> diedProcesses = new ArrayDeque<>();
     Queue<Process> readyProcesses = new ArrayDeque<>();
     private double awt;
@@ -40,7 +40,7 @@ public class AGAlgorithm {
     boolean END() {
         boolean end = true;
         for (Process p : jobQueue) {
-            if (p.getBurstTime() != 0){
+            if (p.getBurstTime() != 0) {
                 end = false;
                 break;
             }
@@ -61,7 +61,7 @@ public class AGAlgorithm {
             printQ(t);
             if (END()) break;
 
-            currentProcess.enteredTime =t;
+            currentProcess.enteredTime = t;
             // Check if all processes have finished
 
             //print current working process
@@ -88,14 +88,16 @@ public class AGAlgorithm {
 
 
             //if there is a process with less ag factor
+            Process minAG = currentProcess;
+            for (Process process : jobQueue) {
+                if (process.getArrivalTime() > t) break;
+                if (minAG.getAGFactory() > process.getAGFactory() &&
+                        process.getBurstTime() > 0) {
+                    minAG = process;
+                }
+            }
 
-            CJob = getfromJob(i, t);
-            i = CJob.getValue();
-            Process minAG = CJob.getKey();
-
-            if (minAG.getArrivalTime() <= t &&
-                    minAG.getAGFactory() < currentProcess.getAGFactory() &&
-            minAG.getBurstTime()>0) {
+            if (minAG != currentProcess) {
                 if (currentProcess.getBurstTime() == 0) {
                     diedProcesses.add(currentProcess);
                     currentProcess.setQuantumTime(0);
@@ -104,7 +106,8 @@ public class AGAlgorithm {
                     calcQ(currentProcess, timeTakenByTheProcess);
                 }
                 currentProcess.exitTime = Math.max(t, currentProcess.exitTime);
-                processExecution.add(Map.entry(currentProcess, Map.entry(currentProcess.enteredTime, t)));
+                processExecution.add(Map.entry(currentProcess,
+                        Map.entry(currentProcess.enteredTime, t)));
                 currentProcess = minAG;
                 continue;
             }
@@ -117,17 +120,17 @@ public class AGAlgorithm {
                 timeTakenByTheProcess++;
                 currentProcess.setBurstTime(currentProcess.getBurstTime() - 1);
 
-                if (timeTakenByTheProcess == currentProcess.getQuantumTime()) break;
-                if (currentProcess.getBurstTime() == 0) break;
-
                 CJob = getfromJob(i, t);
                 currentFromJob = CJob.getKey();
                 i = CJob.getValue();
 
+                if (timeTakenByTheProcess == currentProcess.getQuantumTime()) break;
+                if (currentProcess.getBurstTime() == 0) break;
+
                 // if a new process came
                 if (currentFromJob != currentProcess &&
-                currentFromJob.getAGFactory() < currentProcess.getAGFactory() &&
-                currentFromJob.getBurstTime()>0) {
+                        currentFromJob.getAGFactory() < currentProcess.getAGFactory() &&
+                        currentFromJob.getBurstTime() > 0) {
 
                     calcQ(currentProcess, timeTakenByTheProcess);
                     currentProcess.exitTime = Math.max(t, currentProcess.exitTime);
@@ -169,7 +172,7 @@ public class AGAlgorithm {
         else if (timeTakenByTheProcess == p.getQuantumTime()) {
             int sumQ = 0;
             for (Process pp : jobQueue) {
-                if(pp.waitingTime == pp.getBurstTime())break;
+                if (pp.waitingTime == pp.getBurstTime()) break;
                 sumQ += pp.getQuantumTime();
             }
             p.setQuantumTime(p.getQuantumTime() +
