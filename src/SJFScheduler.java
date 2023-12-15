@@ -59,10 +59,13 @@ public class SJFScheduler {
         System.out.println("Average waiting time =  " + averageWaitingTime);
         System.out.println("Average turnaround time =  " + averageTurnaroundTime);
         System.out.println();
-        System.out.println("Processes execution : ");
-        for (Map.Entry<Process, Map<String ,Integer>> entry : processExecution.entrySet()) {
+        System.out.println("Execution Order :");
+        for (Map.Entry<Process, Map.Entry<Integer, Integer>> entry : processExecutionGui) {
             Process process = entry.getKey();
-            System.out.print(process.getName() + " ");
+            Map.Entry<Integer, Integer> values = entry.getValue();
+            System.out.println("====Process: " + process.getName() + "====" +
+                    "\nStart time: " + values.getKey() +
+                    "\nFinish time " + values.getValue());
         }
         System.out.println('\n');
         for (Map.Entry<Process, Map<String ,Integer>> entry : processExecution.entrySet()) {

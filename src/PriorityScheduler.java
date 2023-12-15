@@ -75,9 +75,7 @@ public class PriorityScheduler {
             }
         }
 
-        for (int i = 0; i < executionOrder.size(); i++) {
-            System.out.print(executionOrder.get(i) + " ");
-        }
+        print();
         System.out.println("\n");
 
         System.out.println(output);
@@ -98,5 +96,16 @@ public class PriorityScheduler {
 
     public double getAtat() {
         return atat;
+    }
+    private void print(){
+        System.out.println('\n');
+        System.out.println("Execution Order :");
+        for (Map.Entry<Process, Map.Entry<Integer, Integer>> entry : processExecution) {
+            Process process = entry.getKey();
+            Map.Entry<Integer, Integer> values = entry.getValue();
+            System.out.println("====Process: " + process.getName() + "====" +
+                    "\nStart time: " + values.getKey() +
+                    "\nFinish time " + values.getValue());
+        }
     }
 }
