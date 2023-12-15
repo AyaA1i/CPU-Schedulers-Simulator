@@ -802,7 +802,7 @@ class PriorityScheduler {
                             if (process == tmpProcess || process.getArrivalTime() == 1000000000
                                     || process.getArrivalTime() > i) continue;
 
-                            if (process.getPriorityNumber() > 0) {
+                            if (process.getPriorityNumber() - (agingFactor * (i - process.getArrivalTime())) >= 0) {
                                 processes.get(k).setPriorityNumber(process.getPriorityNumber() -
                                         (agingFactor * (i - process.getArrivalTime())));
                             }
