@@ -14,7 +14,7 @@ public class PriorityScheduler {
         agingFactor = 0.1;
     }
     public void schedule() {
-        int totalTime = 100000;
+        int totalTime = 10000;
 
         double waitingAvg = 0;
         double turnaroundAvg = 0;
@@ -58,7 +58,7 @@ public class PriorityScheduler {
                             if (process == tmpProcess || process.getArrivalTime() == 1000000000
                                     || process.getArrivalTime() > i) continue;
 
-                            if (process.getPriorityNumber() > 0) {
+                            if (process.getPriorityNumber() - (agingFactor * (i - process.getArrivalTime())) >= 0) {
                                 processes.get(k).setPriorityNumber(process.getPriorityNumber() -
                                         (agingFactor * (i - process.getArrivalTime())));
                             }
