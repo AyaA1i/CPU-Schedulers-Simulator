@@ -52,7 +52,7 @@ public class SRTFScheduler {
             }else{
                 SRTFProcess tmpSRTFProcess = getMinRemainingTimeProcess(currentSRTFProcess, timeCounter);
                 if(tmpSRTFProcess != null){
-                    currentSRTFProcess.swapsCounter++; // finish process
+                    currentSRTFProcess.swapsCounter++;
                     tmp = currentSRTFProcess;
                     tmp.process.exitTime = timeCounter;
                     currentSRTFProcess = tmpSRTFProcess;
@@ -81,7 +81,6 @@ public class SRTFScheduler {
                 processExecutionGui.add(Map.entry(tmp.process, Map.entry(tmp.process.enteredTime, tmp.process.exitTime)));
             }
         }
-      //  processExecutionGui.add(Map.entry(currentSRTFProcess.process, Map.entry(currentSRTFProcess.process.enteredTime, currentSRTFProcess.process.exitTime)));
         calculateAverageTurnaroundTime();
         calculateAverageWaitingTime();
         print();
@@ -108,6 +107,7 @@ public class SRTFScheduler {
         for (SRTFProcess SRTFProcess : processesExecution) {
             if(SRTFProcess != currentExecutionSRTFProcess
                     && SRTFProcess.process.getArrivalTime() <= currentTime && SRTFProcess.swapsCounter == maxSwaps){
+                SRTFProcess.swapsCounter--;
                 return SRTFProcess;
             }
             if(SRTFProcess.remainingTime < minRemainingTime && !SRTFProcess.process.isExecutionCompleted()
