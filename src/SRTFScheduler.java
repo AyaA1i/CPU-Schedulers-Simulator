@@ -123,20 +123,28 @@ public class SRTFScheduler {
         return Integer.compare(a.process.getArrivalTime() ,b.process.getArrivalTime());
     }
 
-    private void print(){
-        System.out.println("Processes Execution Order:");
-        for (SRTFProcess SRTFProcess : executionOrder) {
-            System.out.print(SRTFProcess.process.getName() + "  ");
+    private void print() {
+        System.out.println('\n');
+        System.out.println("Execution Order :");
+        for (Map.Entry<Process, Map.Entry<Integer, Integer>> entry : processExecutionGui) {
+            Process process = entry.getKey();
+            Map.Entry<Integer, Integer> values = entry.getValue();
+            System.out.println("====Process: " + process.getName() + "====" +
+                    "\nStart time: " + values.getKey() +
+                    "\nFinish time " + values.getValue());
         }
         System.out.println('\n');
+
         for (SRTFProcess SRTFProcess : processesExecution) {
 
-            System.out.println("==== Process: " + SRTFProcess.process.getName() + " ===="+
-                    "\nWaiting time = "+ SRTFProcess.process.waitingTime +
+            System.out.println("==== Process: " + SRTFProcess.process.getName() + " ====" +
+                    "\nWaiting time = " + SRTFProcess.process.waitingTime +
                     "\nTurnaround time = " + SRTFProcess.process.getTurnAroundTime() + '\n');
         }
         System.out.println("\nAverage waiting time =  " + averageWaitingTime);
         System.out.println("Average turnaround time =  " + averageTurnAroundTime);
+
+
     }
 
 }

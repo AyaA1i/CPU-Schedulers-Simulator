@@ -58,6 +58,13 @@ public class SJFScheduler {
     private void print(){
         System.out.println("Average waiting time =  " + averageWaitingTime);
         System.out.println("Average turnaround time =  " + averageTurnaroundTime);
+        System.out.println();
+        System.out.println("Processes execution : ");
+        for (Map.Entry<Process, Map<String ,Integer>> entry : processExecution.entrySet()) {
+            Process process = entry.getKey();
+            System.out.print(process.getName() + " ");
+        }
+        System.out.println('\n');
         for (Map.Entry<Process, Map<String ,Integer>> entry : processExecution.entrySet()) {
             Process process = entry.getKey();
             Map<String ,Integer> values = entry.getValue();
