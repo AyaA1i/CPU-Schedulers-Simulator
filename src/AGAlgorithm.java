@@ -210,6 +210,15 @@ public class AGAlgorithm {
         double sumWaiting = 0;
         double sumTurnAround = 0;
         System.out.println('\n');
+        System.out.println("Execution Order :");
+        for (Map.Entry<Process, Map.Entry<Integer, Integer>> entry : processExecution) {
+            Process process = entry.getKey();
+            Map.Entry<Integer, Integer>values = entry.getValue();
+            System.out.println("====Process: " + process.getName() + "===="+
+                    "\nStart time: " + values.getKey() +
+                    "\nFinish time " + values.getValue());
+        }
+        System.out.println('\n');
         System.out.println("--------------------------------------------------------------------");
         System.out.println("Process name---------Waiting Time---------Turnaround Time");
         for (Process p : jobQueue) {
